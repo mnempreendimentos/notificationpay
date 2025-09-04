@@ -1,5 +1,5 @@
 {
-  "name": "roasnotification",
+  "name": "notificationpay",
   "version": "1.0.0",
   "type": "module",
   "main": "server.js",
