@@ -42,7 +42,7 @@ function getNomePagamento(metodo) {
 }
 
 // ====== Pushcut ======
-const PUSHCUT_URL = "https://api.pushcut.io/PCDbSBsyzob8kGX5YeUzr/notifications/Gringa";
+const PUSHCUT_URL = "https://api.pushcut.io/XPTr5Kloj05Rr37Saz0D1/notifications/MinhaNotifica%C3%A7%C3%A3o";
 
 async function sendPushcut({ title, text }) {
   await axios.post(PUSHCUT_URL, { title, text });
@@ -59,7 +59,7 @@ function getComissao(body) {
 }
 
 function tituloVenda(nomeProduto) {
-  return `Venda Aprovada! 🤑 ${nomeProduto}`;
+  return `Venda na Gringa! 🤑 ${nomeProduto}`;
 }
 
 // Handler genérico p/ rotas por país
@@ -150,7 +150,7 @@ app.get("/ping", (req, res) => {
 });
 
 function manterRenderAcordado() {
-  const url = "https://notificationpay.onrender.com/ping";
+  const url = "https://notipay.onrender.com/ping";
   setInterval(async () => {
     try {
       await axios.get(url);
