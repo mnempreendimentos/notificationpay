@@ -7,18 +7,44 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-// Moedas permitidas e símbolos
+// Moedas permitidas e seus símbolos
 const moedasPermitidas = {
-  "BRL": "R$",
-  "EUR": "€",
-  "USD": "$",
-  "CRC": "₡",
-  "GTQ": "Q",
-  "HNL": "L",
-  "NIO": "C$",
-  "DOP": "RD$",
-  "KRW": "₩"
+  BRL: "R$",
+  EUR: "€",
+  USD: "$",
+  CRC: "₡",
+  GTQ: "Q",
+  HNL: "L",
+  NIO: "C$",
+  DOP: "RD$",
+  KRW: "₩"
 };
+
+// Formatação por moeda
+function formatarValor(moeda, valor) {
+  switch (moeda) {
+    case "BRL":
+    case "CRC":
+      return `${moedasPermitidas[moeda]} ${valor.toLocaleString("pt-BR", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })}`;
+    case "KRW":
+      return `${moedasPermitidas[moeda]} ${Math.round(valor).toLocaleString("en-US")}`;
+    case "EUR":
+    case "USD":
+    case "GTQ":
+    case "HNL":
+    case "NIO":
+    case "DOP":
+      return `${moedasPermitidas[moeda]} ${valor.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })}`;
+    default:
+      return `${moeda} ${valor.toFixed(2)}`;
+  }
+}
 
 // Notificar Pushcut
 async function notificarPushcut(titulo, texto) {
@@ -56,9 +82,7 @@ app.post("/shopify-venda", async (req, res) => {
       return res.status(200).send("Moeda não permitida");
     }
 
-    const simbolo = moedasPermitidas[moeda];
-    const valorFormatado = `${simbolo} ${total.toLocaleString("pt-BR")}`;
-
+    const valorFormatado = formatarValor(moeda, total);
     const titulo = `Venda Aprovada! 🤑 ${produto}`;
     const texto = `Sua Comissão: ${valorFormatado}`;
 
